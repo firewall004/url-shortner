@@ -5,24 +5,29 @@
                 <h1 class="display-4 mb-4">Welcome, {{ user.name }}</h1>
                 <p class="lead">{{ user.email }}</p>
                 <hr class="my-4">
-                <h2 class="mb-4">Your Shortened URLs</h2>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Original URL</th>
-                                <th scope="col">Shortened URL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="url in urls" :key="url.id">
-                                <td>{{ url.original_url }}</td>
-                                <td><a :href="url.shortened_url" target="_blank">{{ url.shortened_url }}</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div v-if="urls.length == 0">
+                    <h4>No URLs found</h4>
                 </div>
-                <router-link class="btn btn-primary" to="/url-shortener">Shorten a New URL</router-link>
+                <div v-else>
+                    <h2 class="mb-4">Your Shortened URLs</h2>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Original URL</th>
+                                    <th scope="col">Shortened URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="url in urls" :key="url.id">
+                                    <td>{{ url.original_url }}</td>
+                                    <td><a :href="url.shortened_url" target="_blank">{{ url.shortened_url }}</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <router-link class="btn btn-primary" to="/url-shortener">Shorten a URL</router-link>
             </div>
         </div>
     </div>
