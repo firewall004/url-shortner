@@ -92,4 +92,22 @@ class UrlController extends Controller
             200
         );
     }
+
+    public function redirectToOriginalUrl(Request $request)
+    {
+        $shortenedUrl = $request->path();
+        $path = parse_url($shortenedUrl, PHP_URL_PATH);
+        $path = ltrim($path, '/');
+
+        $url = Url::where('shortened_url', $path)
+            ->where('deleted_at', null)
+            ->where('status', Url::ACTIVE)
+            ->first();
+
+        if ($url) {
+            return redirect()->away($url->original_url);
+        }
+
+        abort(404, 'URL not found');
+    }
 }

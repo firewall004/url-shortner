@@ -40,7 +40,7 @@ export default {
     name: 'NavBar',
     data() {
         return {
-            appName: "URL Shortener",
+            appName: process.env.MIX_APP_NAME,
             isAuthenticated: isAuthenticated(),
             token: getAuthToken()
         };

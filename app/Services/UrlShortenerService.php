@@ -66,6 +66,6 @@ class UrlShortenerService
             return $this->generateShortenedUrl();
         }
 
-        return $shortenedUrl;
+        return 'short/' . $shortenedUrl;
     }
 }
