@@ -15,7 +15,10 @@
                         <router-link class="nav-link" to="/register">Register</router-link>
                     </li>
                     <li v-if="isAuthenticated" class="nav-item">
-                        <router-link class="nav-link" to="/user">User</router-link>
+                        <router-link class="nav-link" to="/url-shortener">URL Shortener</router-link>
+                    </li>
+                    <li v-if="isAuthenticated" class="nav-item">
+                        <button @click="logout" class="btn btn-danger">Logout</button>
                     </li>
                 </ul>
             </div>
@@ -34,5 +37,32 @@ export default {
             isAuthenticated: isAuthenticated()
         };
     },
+    methods: {
+        logout() {
+            const token = sessionStorage.getItem('url_shortener_token');
+
+            axios.get('/api/logout', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    console.log('Logout successful');
+
+                    sessionStorage.removeItem('url_shortener_token');
+
+                    this.$router.push('/login');
+                })
+                .catch(error => {
+                    // sessionStorage.removeItem('url_shortener_token');
+                    console.error('Logout error:', error.message);
+                });
+        }
+    },
+    watch: {
+        '$route'() {
+            this.isAuthenticated = isAuthenticated();
+        }
+    }
 };
 </script>

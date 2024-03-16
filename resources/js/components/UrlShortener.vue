@@ -1,8 +1,7 @@
 <template>
     <div>
-        <h1>HOME</h1>
-        <h2>Welcome, {{ user.name }}</h2>
-        <p>Email: {{ user.email }}</p>
+        <h1>URL Shortener</h1>
+
     </div>
 </template>
 
@@ -35,27 +34,6 @@ export default {
                     console.error('Error fetching user details:', error.message);
                 });
         },
-        logout() {
-            const token = sessionStorage.getItem('url_shortener_token');
-
-            axios.get('/api/logout', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-                .then(response => {
-                    console.log('Logout successful');
-
-                    sessionStorage.removeItem('url_shortener_token');
-
-                    this.$router.push('/login');
-                })
-                .catch(error => {
-                    // sessionStorage.removeItem('url_shortener_token');
-
-                    console.error('Logout error:', error.message);
-                });
-        }
     }
 };
 </script>
