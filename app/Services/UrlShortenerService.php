@@ -14,7 +14,7 @@ class UrlShortenerService
         /** @var User $user */
         $user = Auth::user();
 
-        if ($user->shortenedUrls()->count() >= config('urlshorten.maxLimit')) {
+        if ($user->shortenedUrls()->count() >= $user->shorten_limit) {
             throw new Exception('You have already shortened the maximum number of URLs.', 403);
         }
 

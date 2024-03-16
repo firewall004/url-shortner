@@ -3,13 +3,20 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <h1 class="display-4 mb-4">Welcome, {{ user.name }}</h1>
-                <p class="lead">{{ user.email }}</p>
+                <p class="lead">Email: {{ user.email }}</p>
                 <hr class="my-4">
-                <div v-if="urls.length == 0">
-                    <h4>No URLs found</h4>
+                <div v-if="urls.length === 0">
+                    <h4>No URLs Found</h4>
                 </div>
                 <div v-else>
-                    <h2 class="mb-4">Your Shortened URLs</h2>
+                    <div class="row align-items-center mb-4">
+                        <div class="col-md-8">
+                            <h2 class="mb-0">Your Shortened URLs</h2>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <p class="mb-0">Remaining URL Limit: {{ user.shorten_limit - urls.length }}</p>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead class="thead-dark">
@@ -30,7 +37,6 @@
                                             {{ url.original_url }}
                                         </template>
                                     </td>
-
                                     <td>
                                         <template v-if="url.status">
                                             <a :href="url.shortened_url" target="_blank">{{ url.shortened_url }}</a>
@@ -43,12 +49,12 @@
                                         <button
                                             :class="{ 'badge bg-success': url.status === 1, 'badge bg-danger': url.status === 0 }"
                                             @click="toggleStatus(url.id)">
-                                            {{ url.status == 1 ? 'Active' : 'Inactive' }}
+                                            {{ url.status === 1 ? 'Active' : 'Inactive' }}
                                         </button>
                                     </td>
                                     <td>
-                                        <button @click="editUrl(url)" class="btn btn-primary">Edit</button>
-                                        <button class="btn btn-danger" @click="deleteUrl(url.id)">Delete</button>
+                                        <button @click="editUrl(url)" class="btn btn-primary btn-sm">Edit</button>
+                                        <button class="btn btn-danger btn-sm" @click="deleteUrl(url.id)">Delete</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -56,7 +62,7 @@
                     </div>
                 </div>
                 <router-link class="btn btn-primary" to="/url-shortener">
-                    Shorten a URL
+                    Shorten URL
                 </router-link>
             </div>
         </div>
@@ -108,12 +114,13 @@ export default {
         },
         deleteUrl(id) {
             Swal.fire({
-                title: 'Are you sure?',
-                text: 'You are about to delete this URL.',
+                title: 'Confirm Deletion',
+                text: 'Are you sure you want to delete this URL?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'Cancel'
+                confirmButtonText: 'Yes, delete it',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
                     axios.delete(`/api/urls/${id}`, {
@@ -122,13 +129,27 @@ export default {
                         }
                     })
                         .then(response => {
-                            console.log('URL deleted successfully:', response.data.message);
                             this.urls = this.urls.filter(url => url.id !== id);
-                            Swal.fire('Deleted!', 'The URL has been deleted.', 'success');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted',
+                                text: 'The URL has been deleted successfully',
+                                toast: true,
+                                position: 'top',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
                         })
                         .catch(error => {
-                            console.error('Error deleting URL:', error);
-                            Swal.fire('Error!', 'An error occurred while deleting the URL.', 'error');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'An error occurred while deleting the URL',
+                                toast: true,
+                                position: 'top',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
                         });
                 }
             });
@@ -148,7 +169,6 @@ export default {
                         if (url.id === id) {
                             url.status = (!url.status) + 0;
                         }
-
                         return url;
                     });
                     console.log('URL status updated successfully:', response.data.message);
@@ -157,7 +177,6 @@ export default {
                     console.error('Error updating URL status:', error);
                 });
         }
-
     }
 };
 </script>

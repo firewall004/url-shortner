@@ -18,10 +18,12 @@ import Home from './components/Home.vue';
 import UrlShortener from './components/UrlShortener.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
+import UpgradePlan from './components/UpgradePlan.vue';
 
 const routes = [
     { name: 'home', path: '/', component: Home, meta: { requiresAuth: true } },
     { name: 'urlShortener', path: '/url-shortener', component: UrlShortener, meta: { requiresAuth: true }, props: true },
+    { name: 'upgradePlan', path: '/upgrade-plan', component: UpgradePlan, meta: { requiresAuth: true } },
     { name: 'login', path: '/login', component: Login },
     { name: 'register', path: '/register', component: Register },
 ];

@@ -19,6 +19,10 @@
                         :class="{ 'active': $route.path === '/url-shortener' }">
                         <router-link class="nav-link" to="/url-shortener">URL Shortener</router-link>
                     </li>
+                    <li v-if="isAuthenticated" class="nav-item mx-1"
+                        :class="{ 'active': $route.path === '/upgrade-plan' }">
+                        <router-link class="nav-link" to="/upgrade-plan">Upgrade</router-link>
+                    </li>
                     <li v-if="isAuthenticated" class="nav-item mx-1">
                         <button @click="logout" class="btn btn-danger">Logout</button>
                     </li>
