@@ -28,4 +28,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/logout', [UserController::class, 'logoutUser']);
 
     Route::post('/shorten-url', [UrlController::class, 'shortenUrl']);
+    Route::get('/urls', [UrlController::class, 'getUserUrls']);
 });

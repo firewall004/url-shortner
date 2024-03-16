@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\UrlShortenerService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class UrlController extends Controller
@@ -28,5 +29,13 @@ class UrlController extends Controller
         }
 
         return response()->json(['data' => $url], 201);
+    }
+
+    public function getUserUrls()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $urls = $user->shortenedUrls()->get();
+        return response()->json(['data' => $urls]);
     }
 }

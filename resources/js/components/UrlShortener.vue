@@ -10,7 +10,7 @@
                                 <input type="text" class="form-control" v-model="originalURL"
                                     placeholder="Enter URL to shorten" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Shorten URL</button>
+                            <button type="submit" class="btn btn-primary mt-2">Shorten URL</button>
                         </form>
                         <div v-if="shortenedURL" class="mt-3">
                             <p class="card-text">Shortened URL: <a :href="shortenedURL" target="_blank">{{ shortenedURL
@@ -18,6 +18,7 @@
                         </div>
                     </div>
                 </div>
+                <router-link class="btn btn-link mt-3" to="/">View all URLs</router-link>
             </div>
         </div>
     </div>

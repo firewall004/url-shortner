@@ -47,8 +47,6 @@ export default {
                 }
             })
                 .then(response => {
-                    console.log('Logout successful');
-
                     sessionStorage.removeItem('url_shortener_token');
 
                     this.$router.push('/login');

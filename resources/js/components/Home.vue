@@ -1,8 +1,30 @@
 <template>
-    <div>
-        <h1>HOME</h1>
-        <h2>Welcome, {{ user.name }}</h2>
-        <p>Email: {{ user.email }}</p>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1>HOME</h1>
+                <h2>Welcome 123, {{ user.name }}({{ user.email }})</h2>
+                <hr>
+                <h3>Your Shortened URLs</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Original URL</th>
+                                <th>Shortened URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="url in urls" :key="url.id">
+                                <td>{{ url.original_url }}</td>
+                                <td><a :href="url.shortened_url" target="_blank">{{ url.shortened_url }}</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <router-link class="btn btn-secondary" to="/url-shortener">Shorten new URL</router-link>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -12,48 +34,40 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            user: {}
+            user: {},
+            urls: [],
+            token: sessionStorage.getItem('url_shortener_token'),
         };
     },
-    created() {
+    mounted() {
         this.fetchUserDetails();
+        this.getUserUrls();
     },
     methods: {
         fetchUserDetails() {
-            const token = sessionStorage.getItem('url_shortener_token');
-
             axios.get('/api/user', {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             })
                 .then(response => {
-                    console.log('User details:', response.data.data);
                     this.user = response.data.data;
                 })
                 .catch(error => {
                     console.error('Error fetching user details:', error.message);
                 });
         },
-        logout() {
-            const token = sessionStorage.getItem('url_shortener_token');
-
-            axios.get('/api/logout', {
+        getUserUrls() {
+            axios.get('/api/urls', {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             })
                 .then(response => {
-                    console.log('Logout successful');
-
-                    sessionStorage.removeItem('url_shortener_token');
-
-                    this.$router.push('/login');
+                    this.urls = response.data.data;
                 })
                 .catch(error => {
-                    // sessionStorage.removeItem('url_shortener_token');
-
-                    console.error('Logout error:', error.message);
+                    console.error('Error fetching user URLs:', error);
                 });
         }
     }

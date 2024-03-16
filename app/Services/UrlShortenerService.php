@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\ShortenedUrl;
 use App\Models\Url;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class UrlShortenerService
@@ -15,18 +15,16 @@ class UrlShortenerService
         $user = Auth::user();
 
         if ($user->shortenedUrls()->count() >= 10) {
-            throw new \Exception('You have already shortened the maximum number of URLs.', 403);
+            throw new Exception('You have already shortened the maximum number of URLs.', 403);
         }
 
         $shortenedUrl = $this->generateShortenedUrl();
 
-        $url = Url::create([
+        return Url::create([
             'user_id' => $user->id,
             'original_url' => $originalUrl,
             'shortened_url' => $shortenedUrl,
         ]);
-
-        return $url;
     }
 
     private function generateShortenedUrl(): string

@@ -38,7 +38,6 @@
           password: this.password
         })
         .then(response => {
-          console.log('Registration successful');
           this.$router.push('/login');
         })
         .catch(error => {
