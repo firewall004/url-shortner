@@ -166,17 +166,28 @@ export default {
                 }
             })
                 .then(response => {
-                    // TODO: Add loader
                     this.urls = this.urls.map(url => {
                         if (url.id === id) {
                             url.status = (!url.status) + 0;
                         }
                         return url;
                     });
-                    console.log('URL status updated successfully:', response.data.message);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Updated Successfully!',
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
                 })
                 .catch(error => {
-                    console.error('Error updating URL status:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.response.data.message,
+                    });
                 });
         }
     }
