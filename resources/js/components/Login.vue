@@ -30,12 +30,13 @@
 <script>
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { setAuthToken } from '../auth';
 
 export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
         };
     },
     methods: {
@@ -45,7 +46,7 @@ export default {
                 password: this.password
             })
                 .then(response => {
-                    sessionStorage.setItem('url_shortener_token', response.data.token);
+                    setAuthToken(response.data.token);
 
                     this.$router.push('/');
                 })

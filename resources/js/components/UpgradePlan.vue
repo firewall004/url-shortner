@@ -23,12 +23,13 @@
 <script>
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { getAuthToken } from '../auth';
 
 export default {
     data() {
         return {
             shortenLimit: '1000',
-            token: sessionStorage.getItem('url_shortener_token'),
+            token: getAuthToken(),
         };
     },
     methods: {

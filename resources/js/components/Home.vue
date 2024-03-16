@@ -2,8 +2,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <h1 class="display-4 mb-4">Welcome, {{ user.name }}</h1>
-                <p class="lead">Email: {{ user.email }}</p>
+                <h1 class="display-5 mb-4">Welcome, {{ user.name }}</h1>
                 <hr class="my-4">
                 <div v-if="urls.length === 0">
                     <h4>No URLs Found</h4>
@@ -14,7 +13,8 @@
                             <h2 class="mb-0">Your Shortened URLs</h2>
                         </div>
                         <div class="col-md-4 text-md-end">
-                            <p class="mb-0">Remaining URL Limit: {{ user.shorten_limit - urls.length }}</p>
+                            <b class="mb-0 blockquote-footer">Total Limit: {{ user.shorten_limit }} ({{
+                    user.shorten_limit - urls.length }} remaining)</b>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -72,13 +72,14 @@
 <script>
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { getAuthToken } from '../auth';
 
 export default {
     data() {
         return {
             user: {},
             urls: [],
-            token: sessionStorage.getItem('url_shortener_token'),
+            token: getAuthToken()
         };
     },
     mounted() {

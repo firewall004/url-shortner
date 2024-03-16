@@ -31,12 +31,14 @@
 <script>
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { getAuthToken } from '../auth';
 
 export default {
     data() {
         return {
             originalURL: this.url ? this.url.original_url : '',
-            shortenedURL: ''
+            shortenedURL: '',
+            token: getAuthToken(),
         };
     },
     props: {
@@ -64,7 +66,7 @@ export default {
                     },
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.getToken()}`
+                        'Authorization': `Bearer ${this.token}`
                     }
                 })
                 .then(response => {
@@ -86,9 +88,6 @@ export default {
                     }
                 });
         },
-        getToken() {
-            return sessionStorage.getItem('url_shortener_token');
-        }
     }
 };
 </script>

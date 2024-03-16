@@ -34,27 +34,26 @@
 
 <script>
 import axios from 'axios';
-import { isAuthenticated } from '../../auth';
+import { isAuthenticated, getAuthToken, removeAuthToken } from '../../auth';
 
 export default {
     name: 'NavBar',
     data() {
         return {
             appName: "URL Shortener",
-            isAuthenticated: isAuthenticated()
+            isAuthenticated: isAuthenticated(),
+            token: getAuthToken()
         };
     },
     methods: {
         logout() {
-            const token = sessionStorage.getItem('url_shortener_token');
-
             axios.get('/api/logout', {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             })
                 .then(response => {
-                    sessionStorage.removeItem('url_shortener_token');
+                    removeAuthToken()
                     this.$router.push('/login');
                 })
                 .catch(error => {
