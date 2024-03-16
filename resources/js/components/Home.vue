@@ -16,12 +16,17 @@
                                 <tr>
                                     <th scope="col">Original URL</th>
                                     <th scope="col">Shortened URL</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="url in urls" :key="url.id">
                                     <td>{{ url.original_url }}</td>
                                     <td><a :href="url.shortened_url" target="_blank">{{ url.shortened_url }}</a></td>
+                                    <td>
+                                        <button @click="editUrl(url)" class="btn btn-primary">Edit</button>
+                                        <button class="btn btn-danger" @click="deleteUrl(url.id)">Delete</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -74,6 +79,23 @@ export default {
                 .catch(error => {
                     console.error('Error fetching user URLs:', error);
                 });
+        },
+        deleteUrl(id) {
+            axios.delete(`/api/urls/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+                .then(response => {
+                    this.urls = this.urls.filter(url => url.id !== id);
+                    console.log('URL deleted successfully:', response.data.message);
+                })
+                .catch(error => {
+                    console.error('Error deleting URL:', error);
+                });
+        },
+        editUrl(url) {
+            this.$router.push({ name: 'urlShortener', params: { url } });
         }
     }
 };

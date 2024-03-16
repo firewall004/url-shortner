@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Url;
 use App\Services\UrlShortenerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +41,37 @@ class UrlController extends Controller
             $user = Auth::user();
             $urls = $user->shortenedUrls()->get();
             return response()->json(['data' => $urls]);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return response()->json(['message' => $th->getMessage()], $th->getCode());
+        }
+    }
+
+    public function deleteUrl($id)
+    {
+        try {
+            $url = Url::findOrFail($id);
+            $url->delete();
+            return response()->json(['message' => 'URL deleted successfully']);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return response()->json(['message' => $th->getMessage()], $th->getCode());
+        }
+    }
+
+    public function updateUrl(Request $request, $id)
+    {
+        $request->validate([
+            'original_url' => 'required|url|max:255',
+        ]);
+
+        try {
+            $url = $this->urlShortenerService->updateShortenUrl(
+                $id,
+                $request->input('original_url')
+            );
+
+            return response()->json(['data' => $url], 201);
         } catch (Throwable $th) {
             Log::error($th->getMessage());
             return response()->json(['message' => $th->getMessage()], $th->getCode());

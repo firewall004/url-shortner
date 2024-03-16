@@ -20,10 +20,10 @@ import Login from './components/Login.vue';
 import Register from './components/Register.vue';
 
 const routes = [
-    { path: '/', component: Home, meta: { requiresAuth: true } },
-    { path: '/url-shortener', component: UrlShortener, meta: { requiresAuth: true } },
-    { path: '/login', component: Login },
-    { path: '/register', component: Register },
+    { name: 'home', path: '/', component: Home, meta: { requiresAuth: true } },
+    { name: 'urlShortener', path: '/url-shortener', component: UrlShortener, meta: { requiresAuth: true }, props: true },
+    { name: 'login', path: '/login', component: Login },
+    { name: 'register', path: '/register', component: Register },
 ];
 
 const router = new VueRouter({

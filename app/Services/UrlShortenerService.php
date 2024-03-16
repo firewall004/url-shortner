@@ -19,17 +19,35 @@ class UrlShortenerService
         }
 
         $url = Url::where('original_url', $originalUrl)->first();
-        if ($url) {
-            return $url;
-        }
-
         $shortenedUrl = $this->generateShortenedUrl();
+
+        if ($url) {
+            if ($url->trashed()) {
+                $url->restore();
+            }
+
+            return Url::where('id', $url->id)
+                ->update([
+                    'shortened_url' => $shortenedUrl,
+                ]);
+        }
 
         return Url::create([
             'user_id' => $user->id,
             'original_url' => $originalUrl,
             'shortened_url' => $shortenedUrl,
         ]);
+    }
+
+    public function updateShortenUrl(int $id, string $originalUrl): Url
+    {
+        $url = Url::findOrFail($id);
+        $url->update([
+            'original_url' => $originalUrl,
+            'shortened_url' => $this->generateShortenedUrl()
+        ]);
+
+        return $url;
     }
 
     private function generateShortenedUrl(): string

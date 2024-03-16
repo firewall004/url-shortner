@@ -35,18 +35,38 @@ import Swal from 'sweetalert2';
 export default {
     data() {
         return {
-            originalURL: '',
+            originalURL: this.url ? this.url.original_url : '',
             shortenedURL: ''
         };
     },
+    props: {
+        url: {
+            type: Object,
+            required: false
+        }
+    },
     methods: {
         shortenURL() {
-            axios.post('/api/shorten-url', { original_url: this.originalURL }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.getToken()}`
-                }
-            })
+            let apiShortenUrl = '/api/urls/shorten';
+            let apiMethod = 'post'
+
+            if (this.url) {
+                apiMethod = 'put'
+                apiShortenUrl = 'api/urls/shorten/' + this.url.id;
+            }
+
+            axios.request(
+                {
+                    method: apiMethod,
+                    url: apiShortenUrl,
+                    data: {
+                        original_url: this.originalURL
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.getToken()}`
+                    }
+                })
                 .then(response => {
                     this.shortenedURL = response.data.data.shortened_url;
                 })
@@ -58,7 +78,11 @@ export default {
                             text: error.response.data.message,
                         });
                     } else {
-                        console.error('Error shortening URL:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Forbidden',
+                            text: error.response.data.message,
+                        });
                     }
                 });
         },

@@ -27,6 +27,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user', [UserController::class, 'getUserDetail']);
     Route::get('/logout', [UserController::class, 'logoutUser']);
 
-    Route::post('/shorten-url', [UrlController::class, 'shortenUrl']);
-    Route::get('/urls', [UrlController::class, 'getUserUrls']);
+    Route::prefix('urls')->group(function () {
+        Route::get('/', [UrlController::class, 'getUserUrls']);
+        Route::post('/shorten', [UrlController::class, 'shortenUrl']);
+        Route::put('/shorten/{id}', [UrlController::class, 'updateUrl']);
+        Route::delete('/{id}', [UrlController::class, 'deleteUrl']);
+    });
 });
