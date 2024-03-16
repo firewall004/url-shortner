@@ -24,7 +24,7 @@
                         <router-link class="nav-link" to="/upgrade-plan">Upgrade</router-link>
                     </li>
                     <li v-if="isAuthenticated" class="nav-item mx-1">
-                        <button @click="logout" class="btn btn-danger">Logout</button>
+                        <button @click="logout" class="btn btn-secondary">Logout</button>
                     </li>
                 </ul>
             </div>

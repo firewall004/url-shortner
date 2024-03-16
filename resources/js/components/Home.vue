@@ -31,7 +31,8 @@
                                 <tr v-for="url in urls" :key="url.id">
                                     <td>
                                         <template v-if="url.status">
-                                            <a :href="url.original_url" target="_blank">{{ url.original_url }}</a>
+                                            <a :href="url.original_url" target="_blank" :title="url.original_url">
+                                                {{ url.original_url | trimUrl }}</a>
                                         </template>
                                         <template v-else>
                                             {{ url.original_url }}
@@ -39,7 +40,17 @@
                                     </td>
                                     <td>
                                         <template v-if="url.status">
-                                            <a :href="url.shortened_url" target="_blank">{{ url.shortened_url }}</a>
+                                            <a :href="url.shortened_url" target="_blank">
+                                                {{ url.shortened_url }}
+                                                <share-icon />
+                                            </a>
+                                            <small>
+                                                <button class="badge bg-light text-dark"
+                                                    @click="copyUrl(url.shortened_url)">
+                                                    Copy
+                                                </button>
+                                            </small>
+
                                         </template>
                                         <template v-else>
                                             {{ url.shortened_url }}
@@ -73,9 +84,15 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { getAuthToken } from '../auth';
+import ShareIcon from './icons/Share.vue'
+import CopyIcon from './icons/Copy.vue'
 
 export default {
     name: 'Home',
+    components: {
+        ShareIcon,
+        CopyIcon,
+    },
     data() {
         return {
             user: {},
@@ -189,6 +206,40 @@ export default {
                         text: error.response.data.message,
                     });
                 });
+        },
+        copyUrl(shortenedUrl) {
+            const input = document.createElement('input');
+
+            input.value = window.location.host + '/' + shortenedUrl;
+
+            document.body.appendChild(input);
+
+            input.select();
+            input.setSelectionRange(0, 99999);
+
+            document.execCommand('copy');
+
+            document.body.removeChild(input);
+
+            Swal.fire({
+                icon: 'success',
+                title: 'URL Copied',
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        }
+    },
+    filters: {
+        trimUrl: function (value, maxLength = 30) {
+            if (!value) return '';
+
+            if (value.length > maxLength) {
+                return value.substring(0, maxLength) + '...';
+            } else {
+                return value;
+            }
         }
     }
 };

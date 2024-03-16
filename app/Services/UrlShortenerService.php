@@ -26,10 +26,9 @@ class UrlShortenerService
                 $url->restore();
             }
 
-            return Url::where('id', $url->id)
-                ->update([
-                    'shortened_url' => $shortenedUrl,
-                ]);
+            Url::where('id', $url->id)->update(['shortened_url' => $shortenedUrl]);
+
+            return Url::find($url->id);
         }
 
         return Url::create([
