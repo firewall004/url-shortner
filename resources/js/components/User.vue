@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>HOME</h1>
+        <h1>USER</h1>
         <h2>Welcome, {{ user.name }}</h2>
         <p>Email: {{ user.email }}</p>
         <button @click="logout" class="btn btn-danger">Logout</button>
@@ -40,7 +40,7 @@ export default {
         logout() {
             const token = sessionStorage.getItem('url_shortener_token');
 
-            axios.get('/api/logout', {
+            axios.get('/api/logout', null, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -53,7 +53,7 @@ export default {
                     this.$router.push('/login');
                 })
                 .catch(error => {
-                    // sessionStorage.removeItem('url_shortener_token');
+                    sessionStorage.removeItem('url_shortener_token');
 
                     console.error('Logout error:', error.message);
                 });

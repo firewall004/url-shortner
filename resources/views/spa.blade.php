@@ -26,10 +26,19 @@
 
 <body>
     <div id="app">
-        <router-view></router-view>
+        <base-layout>
+            <template #header>
+
+            </template>
+
+            <router-view></router-view>
+
+            <template #footer>
+                <!-- TODO: Include footer content -->
+            </template>
+        </base-layout>
     </div>
 
-    <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
 </body>
 

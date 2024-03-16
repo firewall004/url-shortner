@@ -2,15 +2,15 @@
     <div>
       <h2>Login</h2>
       <form @submit.prevent="login">
-        <div>
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="email" required>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" id="email" v-model="email" class="form-control" required>
         </div>
-        <div>
-          <label for="password">Password:</label>
-          <input type="password" id="password" v-model="password" required>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password:</label>
+          <input type="password" id="password" v-model="password" class="form-control" required>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" class="btn btn-primary">Login</button>
       </form>
     </div>
   </template>
