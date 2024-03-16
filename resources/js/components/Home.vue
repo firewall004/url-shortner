@@ -75,6 +75,7 @@ import Swal from 'sweetalert2';
 import { getAuthToken } from '../auth';
 
 export default {
+    name: 'Home',
     data() {
         return {
             user: {},

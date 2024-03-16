@@ -9,7 +9,7 @@
                             <div class="mb-3">
                                 <label for="originalURL" class="form-label">Enter URL to Shorten:</label>
                                 <input type="text" class="form-control" id="originalURL" v-model="originalURL"
-                                    placeholder="Enter URL" required>
+                                    placeholder="Enter an URL" required>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary btn-block">Shorten URL</button>
@@ -34,6 +34,7 @@ import Swal from 'sweetalert2';
 import { getAuthToken } from '../auth';
 
 export default {
+    name: 'UrlShortener',
     data() {
         return {
             originalURL: this.url ? this.url.original_url : '',

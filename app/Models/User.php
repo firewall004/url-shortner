@@ -43,8 +43,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['total_urls_count'];
+
     public function shortenedUrls()
     {
         return $this->hasMany(Url::class);
+    }
+
+    public function getTotalUrlsCountAttribute()
+    {
+        return $this->shortenedUrls()->count();
     }
 }
