@@ -2,16 +2,16 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <h1>HOME</h1>
-                <h2>Welcome 123, {{ user.name }}({{ user.email }})</h2>
-                <hr>
-                <h3>Your Shortened URLs</h3>
+                <h1 class="display-4 mb-4">Welcome, {{ user.name }}</h1>
+                <p class="lead">{{ user.email }}</p>
+                <hr class="my-4">
+                <h2 class="mb-4">Your Shortened URLs</h2>
                 <div class="table-responsive">
                     <table class="table table-striped">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr>
-                                <th>Original URL</th>
-                                <th>Shortened URL</th>
+                                <th scope="col">Original URL</th>
+                                <th scope="col">Shortened URL</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -22,7 +22,7 @@
                         </tbody>
                     </table>
                 </div>
-                <router-link class="btn btn-secondary" to="/url-shortener">Shorten new URL</router-link>
+                <router-link class="btn btn-primary" to="/url-shortener">Shorten a New URL</router-link>
             </div>
         </div>
     </div>

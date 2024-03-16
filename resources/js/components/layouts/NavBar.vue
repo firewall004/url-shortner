@@ -5,19 +5,21 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li v-if="isAuthenticated" class="nav-item">
+                    <li v-if="isAuthenticated" class="nav-item mx-1" :class="{ 'active': $route.path === '/' }">
                         <router-link class="nav-link" to="/">Home</router-link>
                     </li>
-                    <li v-if="!isAuthenticated" class="nav-item">
+                    <li v-if="!isAuthenticated" class="nav-item mx-1" :class="{ 'active': $route.path === '/login' }">
                         <router-link class="nav-link" to="/login">Login</router-link>
                     </li>
-                    <li v-if="!isAuthenticated" class="nav-item">
+                    <li v-if="!isAuthenticated" class="nav-item mx-1"
+                        :class="{ 'active': $route.path === '/register' }">
                         <router-link class="nav-link" to="/register">Register</router-link>
                     </li>
-                    <li v-if="isAuthenticated" class="nav-item">
+                    <li v-if="isAuthenticated" class="nav-item mx-1"
+                        :class="{ 'active': $route.path === '/url-shortener' }">
                         <router-link class="nav-link" to="/url-shortener">URL Shortener</router-link>
                     </li>
-                    <li v-if="isAuthenticated" class="nav-item">
+                    <li v-if="isAuthenticated" class="nav-item mx-1">
                         <button @click="logout" class="btn btn-danger">Logout</button>
                     </li>
                 </ul>
@@ -27,10 +29,11 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { isAuthenticated } from '../../auth';
 
 export default {
-    name: 'NavComponent',
+    name: 'NavBar',
     data() {
         return {
             appName: "URL Shortener",
@@ -48,11 +51,9 @@ export default {
             })
                 .then(response => {
                     sessionStorage.removeItem('url_shortener_token');
-
                     this.$router.push('/login');
                 })
                 .catch(error => {
-                    // sessionStorage.removeItem('url_shortener_token');
                     console.error('Logout error:', error.message);
                 });
         }
@@ -64,3 +65,9 @@ export default {
     }
 };
 </script>
+
+<style>
+.nav-item.active {
+    background-color: #e9ecef;
+}
+</style>

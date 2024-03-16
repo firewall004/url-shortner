@@ -1,16 +1,19 @@
 <template>
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title">URL Shortener</h2>
+                        <h2 class="card-title text-center mb-4">URL Shortener</h2>
                         <form @submit.prevent="shortenURL">
-                            <div class="form-group">
-                                <input type="text" class="form-control" v-model="originalURL"
-                                    placeholder="Enter URL to shorten" required>
+                            <div class="mb-3">
+                                <label for="originalURL" class="form-label">Enter URL to Shorten:</label>
+                                <input type="text" class="form-control" id="originalURL" v-model="originalURL"
+                                    placeholder="Enter URL" required>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-2">Shorten URL</button>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-block">Shorten URL</button>
+                            </div>
                         </form>
                         <div v-if="shortenedURL" class="mt-3">
                             <p class="card-text">Shortened URL: <a :href="shortenedURL" target="_blank">{{ shortenedURL
@@ -18,7 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <router-link class="btn btn-link mt-3" to="/">View all URLs</router-link>
+                <router-link class="btn btn-link mt-3 d-block text-center" to="/">View All URLs</router-link>
             </div>
         </div>
     </div>
@@ -27,6 +30,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
     data() {
@@ -47,7 +51,15 @@ export default {
                     this.shortenedURL = response.data.data.shortened_url;
                 })
                 .catch(error => {
-                    console.error('Error shortening URL:', error);
+                    if (error.response.status === 403) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Forbidden',
+                            text: error.response.data.message,
+                        });
+                    } else {
+                        console.error('Error shortening URL:', error);
+                    }
                 });
         },
         getToken() {

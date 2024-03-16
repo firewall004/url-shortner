@@ -1,25 +1,25 @@
 <template>
     <div>
         <header>
-            <nav-component></nav-component>
+            <nav-bar></nav-bar>
         </header>
         <main>
             <slot></slot>
         </main>
-        <footer>
-            <slot name="footer"></slot>
-        </footer>
+        <footer-bar />
     </div>
 </template>
 
 
 <script>
-import NavComponent from './NavComponent.vue'
+import NavBar from './NavBar.vue'
+import FooterBar from './FooterBar.vue'
 
 export default {
     name: 'BaseLayout',
     components: {
-        NavComponent
+        NavBar,
+        FooterBar
     }
 };
 

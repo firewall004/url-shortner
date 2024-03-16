@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Facade\FlareClient\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,10 +41,9 @@ class UserController extends Controller
         }
     }
 
-    public function getUserDetail(Request $request): JsonResponse
+    public function getUserDetail(): JsonResponse
     {
-        $user = Auth::user();
-        return response()->json(['data' => $user], 200);
+        return response()->json(['data' => Auth::user()], 200);
     }
 
     public function logoutUser(Request $request): JsonResponse

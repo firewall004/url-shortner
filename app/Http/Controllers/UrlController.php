@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\UrlShortenerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class UrlController extends Controller
@@ -24,18 +25,24 @@ class UrlController extends Controller
 
         try {
             $url = $this->urlShortenerService->shortenUrl($request->input('original_url'));
-        } catch (Throwable $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
-        }
 
-        return response()->json(['data' => $url], 201);
+            return response()->json(['data' => $url], 201);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return response()->json(['message' => $th->getMessage()], $th->getCode());
+        }
     }
 
     public function getUserUrls()
     {
-        /** @var User $user */
-        $user = Auth::user();
-        $urls = $user->shortenedUrls()->get();
-        return response()->json(['data' => $urls]);
+        try {
+            /** @var User $user */
+            $user = Auth::user();
+            $urls = $user->shortenedUrls()->get();
+            return response()->json(['data' => $urls]);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return response()->json(['message' => $th->getMessage()], $th->getCode());
+        }
     }
 }
