@@ -77,4 +77,19 @@ class UrlController extends Controller
             return response()->json(['message' => $th->getMessage()], $th->getCode());
         }
     }
+
+    public function toggleStatus($id)
+    {
+        $url = Url::findOrFail($id);
+        $url->status = !boolval($url->status);
+        $url->save();
+
+        return response()->json(
+            [
+                'message' => 'URL status updated successfully',
+                'data' => $url
+            ],
+            200
+        );
+    }
 }

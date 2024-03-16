@@ -32,5 +32,6 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/shorten', [UrlController::class, 'shortenUrl']);
         Route::put('/shorten/{id}', [UrlController::class, 'updateUrl']);
         Route::delete('/{id}', [UrlController::class, 'deleteUrl']);
+        Route::put('/{id}/toggleStatus', [UrlController::class, 'toggleStatus']);
     });
 });
