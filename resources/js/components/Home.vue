@@ -21,6 +21,7 @@
                         <table class="table table-striped">
                             <thead class="thead-dark">
                                 <tr>
+                                    <th scope="col">#</th>
                                     <th scope="col">Original URL</th>
                                     <th scope="col">Shortened URL</th>
                                     <th>Status</th>
@@ -28,29 +29,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="url in urls" :key="url.id">
+                                <tr v-for="(url, index) in urls" :key="url.id">
+                                    <td>{{ index + 1 }}</td>
                                     <td>
                                         <template v-if="url.status">
-                                            <a :href="url.original_url" target="_blank" :title="url.original_url">
-                                                {{ url.original_url | trimUrl }}</a>
+                                            <a :href="url.original_url" target="_blank" :title="url.original_url">{{
+                    url.original_url | trimUrl }}</a>
                                         </template>
                                         <template v-else>
-                                            {{ url.original_url }}
+                                            {{ url.original_url | trimUrl }}
                                         </template>
                                     </td>
                                     <td>
                                         <template v-if="url.status">
-                                            <a :href="url.shortened_url" target="_blank">
-                                                {{ url.shortened_url }}
-                                                <share-icon />
-                                            </a>
-                                            <small>
-                                                <button class="badge bg-light text-dark"
-                                                    @click="copyUrl(url.shortened_url)">
-                                                    Copy
+                                            <div class="d-flex align-items-center">
+                                                <a :href="url.shortened_url" target="_blank" class="me-2">
+                                                    {{ url.shortened_url }}
+                                                    <share-icon />
+                                                </a>
+                                                <button class="btn btn-light btn-sm" @click="copyUrl(url.shortened_url)"
+                                                    title="Copy">
+                                                    <copy-icon />
                                                 </button>
-                                            </small>
-
+                                            </div>
                                         </template>
                                         <template v-else>
                                             {{ url.shortened_url }}
@@ -64,17 +65,20 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <button @click="editUrl(url)" class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm" @click="deleteUrl(url.id)">Delete</button>
+                                        <button class="btn btn-light btn-sm me-2" @click="editUrl(url)" title="Edit">
+                                            <edit-icon />
+                                        </button>
+                                        <button class="btn btn-light btn-sm" @click="deleteUrl(url.id)" title="Delete">
+                                            <delete-icon />
+                                        </button>
+
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <router-link class="btn btn-primary" to="/url-shortener">
-                    Shorten URL
-                </router-link>
+                <router-link class="btn btn-primary" to="/url-shortener">Shorten URL</router-link>
             </div>
         </div>
     </div>
@@ -86,12 +90,16 @@ import Swal from 'sweetalert2';
 import { getAuthToken } from '../auth';
 import ShareIcon from './icons/Share.vue'
 import CopyIcon from './icons/Copy.vue'
+import DeleteIcon from './icons/Delete.vue'
+import EditIcon from './icons/Edit.vue'
 
 export default {
     name: 'Home',
     components: {
         ShareIcon,
         CopyIcon,
+        DeleteIcon,
+        EditIcon,
     },
     data() {
         return {

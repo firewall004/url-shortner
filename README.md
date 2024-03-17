@@ -43,8 +43,8 @@ This is a simple URL shortener application built with Laravel and Vue.js. It all
 
 ### Url Shortener
 
-![image](https://github.com/firewall004/url-shortner/assets/37473661/d4e48e46-1e1f-47c8-9aca-cfde019d05e0)
+![image](https://github.com/firewall004/url-shortner/assets/37473661/f8e2b089-655f-414a-9784-8a4f29e3a92b)
 
 ### Home
 
-![image](https://github.com/firewall004/url-shortner/assets/37473661/972cf062-3c24-490a-99b8-557fc3887f1e)
+![image](https://github.com/firewall004/url-shortner/assets/37473661/384055e0-20b7-4449-9ff1-a93d79234398)

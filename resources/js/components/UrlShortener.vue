@@ -7,7 +7,7 @@
                         <h2 class="card-title text-center mb-4">URL Shortener</h2>
                         <form @submit.prevent="shortenURL">
                             <div class="mb-3">
-                                <label for="originalURL" class="form-label">Enter URL to Shorten:</label>
+                                <label for="originalURL" class="form-label">Enter URL to Shorten</label>
                                 <input type="text" class="form-control" id="originalURL" v-model="originalURL"
                                     placeholder="Enter an URL" required>
                             </div>
@@ -17,7 +17,9 @@
                         </form>
                         <div v-if="shortenedURL" class="mt-3">
                             <p class="card-text">Shortened URL: <a :href="shortenedURL" target="_blank">{{ shortenedURL
-                                    }}</a></p>
+                                    }}
+                                    <share-icon />
+                                </a></p>
                         </div>
                     </div>
                 </div>
@@ -31,15 +33,19 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { getAuthToken } from '../auth';
+import ShareIcon from './icons/Share.vue'
 
 export default {
     name: 'UrlShortener',
     data() {
         return {
             originalURL: this.url ? this.url.original_url : '',
-            shortenedURL: '',
+            shortenedURL: this.url ? this.url.shortened_url : '',
             token: getAuthToken(),
         };
+    },
+    components: {
+        ShareIcon,
     },
     props: {
         url: {
