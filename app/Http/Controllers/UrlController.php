@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Url;
-use App\Models\User;
 use App\Services\UrlShortenerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,10 +37,9 @@ class UrlController extends Controller
     public function getUserUrls()
     {
         try {
-            /** @var User $user */
             $user = Auth::user();
-            $urls = $user->shortenedUrls()->get();
-            return response()->json(['data' => $urls]);
+            $userUrls = Url::where('user_id', $user->id)->get();
+            return response()->json(['data' => $userUrls]);
         } catch (Throwable $th) {
             Log::error($th->getMessage());
             return response()->json(['message' => $th->getMessage()], $th->getCode());

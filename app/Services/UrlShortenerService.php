@@ -18,7 +18,12 @@ class UrlShortenerService
             throw new Exception('You have already shortened the maximum number of URLs.', 403);
         }
 
-        $url = Url::where('original_url', $originalUrl)->first();
+        $url = Url::where(
+            [
+                'original_url' => $originalUrl,
+                'user_id' => $user->id
+            ]
+        )->first();
         $shortenedUrl = $this->generateShortenedUrl();
 
         if ($url) {
