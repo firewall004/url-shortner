@@ -30,3 +30,21 @@ This is a simple URL shortener application built with Laravel and Vue.js. It all
 4. Run migrations: `php artisan migrate`
 5. Start the development server: `php artisan serve`
 6. Access the application in your browser: `http://localhost:8000`
+
+## Screenshots
+
+### Register
+
+![image](https://github.com/firewall004/url-shortner/assets/37473661/ec4fc0c7-ef3d-4e8f-9595-7fa362c07f02)
+
+### Login
+
+![image](https://github.com/firewall004/url-shortner/assets/37473661/53b2e9e8-3bdb-4f33-a193-18d459cf8840)
+
+### Url Shortener
+
+![image](https://github.com/firewall004/url-shortner/assets/37473661/d4e48e46-1e1f-47c8-9aca-cfde019d05e0)
+
+### Home
+
+![image](https://github.com/firewall004/url-shortner/assets/37473661/972cf062-3c24-490a-99b8-557fc3887f1e)
