@@ -6,20 +6,26 @@
                     <div class="card-body">
                         <h2 class="card-title text-center mb-4">Register</h2>
                         <form @submit.prevent="register">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name:</label>
+                            <div class="mb-3 input-group">
+                                <span class="input-group-text">
+                                    <username-icon />
+                                </span>
                                 <input type="text" id="name" v-model="name" class="form-control"
                                     placeholder="Enter your name" required>
                                 <div v-if="nameError" class="text-danger">{{ nameError }}</div>
                             </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email:</label>
+                            <div class="mb-3 input-group">
+                                <span class="input-group-text">
+                                    <email-icon />
+                                </span>
                                 <input type="email" id="email" v-model="email" class="form-control"
                                     placeholder="Enter your email" required>
                                 <div v-if="emailError" class="text-danger">{{ emailError }}</div>
                             </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password:</label>
+                            <div class="mb-3 input-group">
+                                <span class="input-group-text">
+                                    <password-icon />
+                                </span>
                                 <input type="password" id="password" v-model="password" class="form-control"
                                     placeholder="Enter your password" required>
                                 <div v-if="passwordError" class="text-danger">{{ passwordError }}</div>
@@ -37,6 +43,9 @@
 
 <script>
 import axios from 'axios';
+import UsernameIcon from './icons/User.vue';
+import PasswordIcon from './icons/Password.vue';
+import EmailIcon from './icons/Email.vue';
 
 export default {
     name: 'Register',
@@ -49,6 +58,11 @@ export default {
             emailError: '',
             passwordError: ''
         };
+    },
+    components: {
+        UsernameIcon,
+        PasswordIcon,
+        EmailIcon
     },
     methods: {
         register() {

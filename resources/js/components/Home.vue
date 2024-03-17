@@ -2,19 +2,21 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <h1 class="display-5 mb-4">Welcome, {{ user.name }}</h1>
+                <h1 class="display-5 mb-4">Welcome, {{ user.name | firstName }}</h1>
                 <hr class="my-4">
                 <div v-if="urls.length === 0">
-                    <h4>No URLs Found</h4>
+                    <div class="alert alert-info" role="alert">
+                        No URLs Found
+                    </div>
                 </div>
                 <div v-else>
-                    <div class="row align-items-center mb-4">
-                        <div class="col-md-8">
-                            <h2 class="mb-0">Your Shortened URLs</h2>
-                        </div>
-                        <div class="col-md-4 text-md-end">
-                            <b class="mb-0 blockquote-footer">Total Limit: {{ user.shorten_limit }} ({{
-                    user.shorten_limit - urls.length }} remaining)</b>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="card-title mb-0">Your Shortened URLs</h2>
+                        <div>
+                            <p class="card-text mb-0">
+                                <strong>Total Limit:</strong> {{ user.shorten_limit }} ({{ user.shorten_limit -
+                    urls.length }} remaining)
+                            </p>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -30,7 +32,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(url, index) in urls" :key="url.id">
-                                    <td>{{ index + 1 }}</td>
+                                    <td>{{ index + 1 }}.</td>
                                     <td>
                                         <template v-if="url.status">
                                             <a :href="url.original_url" target="_blank" :title="url.original_url">{{
@@ -68,7 +70,8 @@
                                         <button class="btn btn-light btn-sm me-2" @click="editUrl(url)" title="Edit">
                                             <edit-icon />
                                         </button>
-                                        <button class="btn btn-light btn-sm" @click="deleteUrl(url.id)" title="Delete">
+                                        <button class="btn btn-light btn-sm delete-btn" @click="deleteUrl(url.id)"
+                                            title="Delete">
                                             <delete-icon />
                                         </button>
 
@@ -248,7 +251,28 @@ export default {
             } else {
                 return value;
             }
+        },
+        firstName: function (value) {
+            if (!value) return '';
+
+            return value.split(' ')[0];
         }
-    }
+    },
 };
 </script>
+
+<style>
+.delete-btn:hover {
+    background-color: #ff000026;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.alert-info {
+    background-color: #f0f9ff;
+    border-color: #cfe2ff;
+    color: #0c5460;
+}
+</style>

@@ -6,13 +6,17 @@
                     <div class="card-body">
                         <h2 class="card-title text-center mb-4">Login</h2>
                         <form @submit.prevent="login">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email:</label>
+                            <div class="mb-3 input-group">
+                                <span class="input-group-text">
+                                    <username-icon />
+                                </span>
                                 <input type="email" id="email" v-model="email" class="form-control"
                                     placeholder="Enter your email" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password:</label>
+                            <div class="mb-3 input-group">
+                                <span class="input-group-text">
+                                    <password-icon />
+                                </span>
                                 <input type="password" id="password" v-model="password" class="form-control"
                                     placeholder="Enter your password" required>
                             </div>
@@ -31,6 +35,8 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { setAuthToken } from '../auth';
+import UsernameIcon from './icons/Email.vue';
+import PasswordIcon from './icons/Password.vue';
 
 export default {
     data() {
@@ -38,6 +44,10 @@ export default {
             email: '',
             password: '',
         };
+    },
+    components: {
+        UsernameIcon,
+        PasswordIcon,
     },
     methods: {
         login() {
@@ -58,6 +68,6 @@ export default {
                     });
                 });
         }
-    }
+    },
 };
 </script>
