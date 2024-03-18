@@ -21,7 +21,7 @@ class UrlController extends Controller
     public function shortenUrl(Request $request)
     {
         $request->validate([
-            'original_url' => 'required|url|max:255',
+            'original_url' => 'required|url|max:1000',
         ]);
 
         try {

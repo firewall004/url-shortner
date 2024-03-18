@@ -35,11 +35,11 @@ This is a simple URL shortener application built with Laravel and Vue.js. It all
 
 ### Register
 
-![image](https://github.com/firewall004/url-shortner/assets/37473661/ec4fc0c7-ef3d-4e8f-9595-7fa362c07f02)
+![image](https://github.com/firewall004/url-shortner/assets/37473661/a8012060-7250-41a0-892e-9a8ee10b739b)
 
 ### Login
 
-![image](https://github.com/firewall004/url-shortner/assets/37473661/53b2e9e8-3bdb-4f33-a193-18d459cf8840)
+![image](https://github.com/firewall004/url-shortner/assets/37473661/7287627f-0ed2-4ee1-ba93-2854f5bec0e1)
 
 ### Url Shortener
 
