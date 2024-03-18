@@ -47,4 +47,4 @@ This is a simple URL shortener application built with Laravel and Vue.js. It all
 
 ### Home
 
-![image](https://github.com/firewall004/url-shortner/assets/37473661/384055e0-20b7-4449-9ff1-a93d79234398)
+![image](https://github.com/firewall004/url-shortner/assets/37473661/c7e8aec7-a714-481b-9562-2dec85788ecf)
