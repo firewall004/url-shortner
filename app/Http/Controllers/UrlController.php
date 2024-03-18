@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Url;
 use App\Services\UrlShortenerService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +19,7 @@ class UrlController extends Controller
         $this->urlShortenerService = $urlShortenerService;
     }
 
-    public function shortenUrl(Request $request)
+    public function shortenUrl(Request $request): JsonResponse
     {
         $request->validate([
             'original_url' => 'required|url|max:1000',
@@ -34,7 +35,7 @@ class UrlController extends Controller
         }
     }
 
-    public function getUserUrls()
+    public function getUserUrls(): JsonResponse
     {
         try {
             $user = Auth::user();
@@ -46,7 +47,7 @@ class UrlController extends Controller
         }
     }
 
-    public function deleteUrl($id)
+    public function deleteUrl($id): JsonResponse
     {
         try {
             $url = Url::findOrFail($id);
@@ -58,7 +59,7 @@ class UrlController extends Controller
         }
     }
 
-    public function updateUrl(Request $request, $id)
+    public function updateUrl(Request $request, $id): JsonResponse
     {
         $request->validate([
             'original_url' => 'required|url|max:255',
@@ -77,7 +78,7 @@ class UrlController extends Controller
         }
     }
 
-    public function toggleStatus($id)
+    public function toggleStatus($id): JsonResponse
     {
         $url = Url::findOrFail($id);
         $url->status = !boolval($url->status);

@@ -33,6 +33,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            /** @var User */
             $user = Auth::user();
             $token = $user->createToken(config('app.name'))->accessToken;
             return response()->json(['token' => $token], 200);
@@ -43,7 +44,9 @@ class AuthController extends Controller
 
     public function logoutUser(Request $request): JsonResponse
     {
-        $request->user()->token()->revoke();
+        /** @var User */
+        $user = Auth::user();
+        $user->token()->revoke();
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
 }
